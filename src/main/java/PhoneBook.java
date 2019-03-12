@@ -1,15 +1,19 @@
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.*;
 import java.util.regex.Pattern;
 
 class PhoneBook {
     private final HashMap<String, Set<String>> book = new HashMap<>();
 
-    @org.jetbrains.annotations.Contract("null -> new")
+
+    @Contract("null -> null")
     private Set<String> checkPhone(Set<String> phone) {
-        if (phone == null) return new TreeSet<>();
-        phone.forEach(it -> {
-            if (!Pattern.matches("[\\d+\\-*#]+", it)) throw new IllegalArgumentException("Неправильно набран номер: " + it);
+        if (phone == null) return null;
+         phone.forEach(it -> {
+             if (!Pattern.matches("[\\d+\\-*#]+", it))
+                 throw new IllegalArgumentException("Неправильно набран номер: " + it);
         });
         return phone;
     }
@@ -32,14 +36,16 @@ class PhoneBook {
     }
 
     Set<String> findNumber(String name) {
-        if (book.containsKey(name)) return book.get(name);
-        else throw new IllegalArgumentException("Книга не содержит данное имя");
+        //if (book.containsKey(name))
+        return book.get(name);
+        // else throw new IllegalArgumentException("Книга не содержит данное имя");
     }
 
     String findName(String phone) {
         for (String name: book.keySet()) {
           if (book.get(name).contains(phone)) return name;
         }
-        throw new IllegalArgumentException("Книга не содержит данный номер");
+        return null;
+       // throw new IllegalArgumentException("Книга не содержит данный номер");
     }
 }
