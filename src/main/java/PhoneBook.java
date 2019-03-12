@@ -30,9 +30,11 @@ class PhoneBook {
     }
 
     void removeNumber(String name, String phone) {
-        Set<String> phones = book.get(name);
-        phones.remove(phone);
-        book.replace(name, phones);
+        if (book.get(name) != null) {
+            Set<String> phones = book.get(name);
+            phones.remove(phone);
+            book.replace(name, phones);
+        }
     }
 
     Set<String> findNumber(String name) {
