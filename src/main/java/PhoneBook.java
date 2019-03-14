@@ -1,53 +1,77 @@
-
 import org.jetbrains.annotations.Contract;
-
 import java.util.*;
 import java.util.regex.Pattern;
 
 class PhoneBook {
-    private final HashMap<String, Set<String>> book = new HashMap<>();
+    /** Основа класса - ассоциативный массив
+     */
+    private final Map<String, Set<String>> book = new HashMap<>();
 
-
-    @Contract("null -> null")
-    private Set<String> checkPhone(Set<String> phone) {
-        if (phone == null) return null;
-         phone.forEach(it -> {
+    /** Проверка входных данных:
+     * получает множество номеров;
+     * выбрасывает ошибку при неправильном номере;
+     * значение null переводится в пустое множество
+     */
+    @Contract("null -> new")
+    private Set<String> checkPhone(Set<String> phoneNumber) {
+        if (phoneNumber == null) return new TreeSet<>();
+         phoneNumber.forEach(it -> {
              if (!Pattern.matches("[\\d+\\-*#]+", it))
                  throw new IllegalArgumentException("Неправильно набран номер: " + it);
         });
-        return phone;
+        return phoneNumber;
     }
 
-    void add(String name, Set<String> phone) {
+    /** Внесение данных:
+     * получает имя и множество номеров;
+     * вносит имя с номером/номерами телефонов в виде множества;
+     * добавляет к уже существующему имени новый номер;
+     * использует Функцию checkPhone для проверки номеров.
+     */
+    void add(String name, Set<String> phoneNumber) {
         Set<String> ph;
         ph = book.getOrDefault(name, new TreeSet<>());
-        ph.addAll(checkPhone(phone));
+        ph.addAll(checkPhone(phoneNumber));
         book.put(name, ph);
     }
 
-    void removeName(String name) {
-        book.remove(name);
-    }
+    /** Удаление имени:
+     * получает имя;
+     * удаляет имя с номером/номерами телефонов;
+     * Null и несуществующее имя игнорирует
+     */
+    void removeName(String name) { book.remove(name); }
 
-    void removeNumber(String name, String phone) {
-        if (book.get(name) != null) {
+    /** Удаление номера:
+     * получает имя и номер телефона;
+     * удаляет номер телефона, если он существует;
+     * Null и несуществующие данные игнорирует.
+     */
+    void removeNumber(String name, String phoneNumber) {
+        if (book.get(name) != null && phoneNumber != null) {
             Set<String> phones = book.get(name);
-            phones.remove(phone);
+            phones.remove(phoneNumber);
             book.replace(name, phones);
         }
     }
 
-    Set<String> findNumber(String name) {
-        //if (book.containsKey(name))
-        return book.get(name);
-        // else throw new IllegalArgumentException("Книга не содержит данное имя");
-    }
+    /** Поиск номера по имени:
+     * получает имя;
+     * возвращает номер\номера телефонов;
+     * Null и несуществующее имя игнорирует.
+     */
+    Set<String> findNumber(String name) { return book.get(name); }
 
-    String findName(String phone) {
+    /** Поиск имени по номеру телефона:
+     * получает номер;
+     * возвращает имя, если оно есть;
+     * при значении Null и неправильном/не входящем в книгу номере возвращает Null.
+     */
+    String findName(String phoneNumber) {
+        if (phoneNumber == null) return null;
         for (String name: book.keySet()) {
-          if (book.get(name).contains(phone)) return name;
+          if (book.get(name).contains(phoneNumber)) return name;
         }
         return null;
-       // throw new IllegalArgumentException("Книга не содержит данный номер");
     }
 }
