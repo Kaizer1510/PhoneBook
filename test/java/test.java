@@ -68,6 +68,14 @@ public class test {
     @Test
     public void findNumber() {
         ph.add("Richard", setOf("8329093844309", "*32453"));
+        Set<String> a = ph.findNumber("Richard");
+        boolean catchEx = false;                         //
+        try {                                           //
+            a.add("dfg");                              //
+        } catch (UnsupportedOperationException e) {   // Проверяет реакцию на попытку
+            catchEx = true;                          //  изменить мнжество номеров;
+        }                                           //
+        assertTrue(catchEx);                       //
         assertEquals(setOf("8329093844309", "*32453"), ph.findNumber("Richard"));
         assertNull(ph.findNumber("Phillip")); //Проверяет рекцию на невнесённое имя;
         assertNull(ph.findNumber(null)); //Проверяет рекцию на null.
