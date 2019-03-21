@@ -1,4 +1,3 @@
-import org.jetbrains.annotations.Contract;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -12,9 +11,8 @@ class PhoneBook {
      * выбрасывает ошибку при неправильном номере;
      * значение null переводится в пустое множество
      */
-    @Contract("null -> new")
     private Set<String> checkPhone(Set<String> phoneNumber) {
-        if (phoneNumber == null) return new TreeSet<>();
+        if (phoneNumber == null) return new HashSet<>();
          phoneNumber.forEach(it -> {
              if (!Pattern.matches("[\\d+\\-*#]+", it))
                  throw new IllegalArgumentException("Неправильно набран номер: " + it);
@@ -30,7 +28,7 @@ class PhoneBook {
      */
     void add(String name, Set<String> phoneNumber) {
         Set<String> ph;
-        ph = book.getOrDefault(name, new TreeSet<>());
+        ph = book.getOrDefault(name, new HashSet<>());
         ph.addAll(checkPhone(phoneNumber));
         book.put(name, ph);
     }
@@ -48,10 +46,9 @@ class PhoneBook {
      * Null и несуществующие данные игнорирует.
      */
     void removeNumber(String name, String phoneNumber) {
-        if (book.get(name) != null && phoneNumber != null) {
+        if (book.get(name) != null) {
             Set<String> phones = book.get(name);
             phones.remove(phoneNumber);
-            book.replace(name, phones);
         }
     }
 
@@ -68,7 +65,6 @@ class PhoneBook {
      * при значении Null и неправильном/не входящем в книгу номере возвращает Null.
      */
     String findName(String phoneNumber) {
-        if (phoneNumber == null) return null;
         for (String name: book.keySet()) {
           if (book.get(name).contains(phoneNumber)) return name;
         }

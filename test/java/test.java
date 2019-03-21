@@ -7,7 +7,7 @@ public class test {
      * переводит перечисленные номера в множество номеров
      */
     private Set<String> setOf (String... phoneNumber) {
-        Set<String> setOfNumbers = new TreeSet<>();
+        Set<String> setOfNumbers = new HashSet<>();
         Collections.addAll(setOfNumbers, phoneNumber);
         return setOfNumbers;
     }
@@ -26,13 +26,13 @@ public class test {
         assertEquals(setOf("8-800-555-35-35", "8329093844309"), ph.findNumber("Anna"));
         ph.add("Anna", setOf("8329093844309", "*32453")); //Проверяет рекцию на существующий номер;
         assertEquals(setOf("8-800-555-35-35", "8329093844309", "*32453"), ph.findNumber("Anna"));
-        boolean catchEx = false;
-        try {
+        boolean catchEx = false;                                        //
+        try {                                                          //
             ph.add("Anna", setOf(" +23134424223", "*2  21#")); //Проверяет рекцию на неправильный номер;
-        } catch (IllegalArgumentException e) {
-            catchEx = true;
-        }
-        assertTrue(catchEx);
+        } catch (IllegalArgumentException e) {                      //
+            catchEx = true;                                        //
+        }                                                         //
+        assertTrue(catchEx);                                     //
         ph.add("Valera", null); //Проверяет рекцию на null.
         assertEquals(new TreeSet<>(), ph.findNumber("Valera"));
     }
