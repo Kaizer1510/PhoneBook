@@ -57,7 +57,11 @@ class PhoneBook {
      * возвращает номер\номера телефонов;
      * Null и несуществующее имя игнорирует.
      */
-    Set<String> findNumber(String name) { return book.get(name); }
+    Set<String> findNumber(String name) {
+        Set<String> set = book.get(name);
+        if (set == null) return null;
+        return Collections.unmodifiableSet(set);
+    }
 
     /** Поиск имени по номеру телефона:
      * получает номер;
