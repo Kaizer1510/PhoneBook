@@ -21,15 +21,29 @@ class PhoneBook {
     }
 
     /** Внесение данных:
-     * получает имя и множество номеров;
-     * вносит имя с номером/номерами телефонов в виде множества;
+     * получает имя и номер;
+     * вносит имя с номером телефона в виде множества;
      * добавляет к уже существующему имени новый номер;
+     * использует Функцию checkPhone для проверки номера.
+     */
+    void addNumber (String name, String phoneNumber) {
+        Set<String> ph = new HashSet<>();
+        ph.add(phoneNumber);
+        checkPhone(ph);
+        ph.addAll(book.getOrDefault(name, new HashSet<>()));
+        book.put(name,ph);
+    }
+
+    /** Внесение данных:
+     * получает имя и множество номеров;
+     * вносит имя с номерами телефонов в виде множества;
+     * добавляет к уже существующему имени новые номера;
      * использует Функцию checkPhone для проверки номеров.
      */
-    void add(String name, Set<String> phoneNumber) {
+    void addNumbers(String name, Set<String> phoneNumbers) {
         Set<String> ph;
         ph = book.getOrDefault(name, new HashSet<>());
-        ph.addAll(checkPhone(phoneNumber));
+        ph.addAll(checkPhone(phoneNumbers));
         book.put(name, ph);
     }
 
