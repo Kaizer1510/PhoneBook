@@ -24,15 +24,15 @@ public class test {
     public void addNumber() {
         ph.addNumber("blackCPh", "1-999-367-3767");
         assertEquals(setOf("1-999-367-3767"), ph.findNumber("blackCPh"));
-        ph.addNumber("blackCPh", "254-254-254"); //Проверяет рекцию на существующий номер;
-        boolean catchEx = false;                                        //
-        try {                                                          //
-            ph.addNumber("Anna", "w3");           //Проверяет рекцию на неправильный номер;
-        } catch (IllegalArgumentException e) {                      //
-            catchEx = true;                                        //
-        }                                                         //
-        assertTrue(catchEx);                                     //
-        ph.addNumbers("Black hole", null);             //Проверяет рекцию на null.
+        ph.addNumber("blackCPh", "1-999-367-3767"); //Проверяет рекцию на существующий номер;
+        boolean catchEx = false;               //
+        try {                                  //
+            ph.addNumber("Anna", "w3");        // Проверяет рекцию на неправильный номер;
+        } catch (IllegalArgumentException e) { //
+            catchEx = true;                    //
+        }                                      //
+        assertTrue(catchEx);                   //
+        ph.addNumbers("Black hole", null);            //Проверяет рекцию на null.
         assertEquals(new TreeSet<>(), ph.findNumber("Black hole")); //
     }
 
@@ -42,13 +42,13 @@ public class test {
         assertEquals(setOf("8-800-555-35-35", "8329093844309"), ph.findNumber("Anna"));
         ph.addNumbers("Anna", setOf("8329093844309", "*32453")); //Проверяет рекцию на существующий номер;
         assertEquals(setOf("8-800-555-35-35", "8329093844309", "*32453"), ph.findNumber("Anna"));
-        boolean catchEx = false;                                        //
-        try {                                                          //
+        boolean catchEx = false;                                      //
+        try {                                                         //
             ph.addNumbers("Anna", setOf(" +23134424223", "*2  21#")); //Проверяет рекцию на неправильный номер;
-        } catch (IllegalArgumentException e) {                      //
-            catchEx = true;                                        //
-        }                                                         //
-        assertTrue(catchEx);                                     //
+        } catch (IllegalArgumentException e) {                        //
+            catchEx = true;                                           //
+        }                                                             //
+        assertTrue(catchEx);                                          //
         ph.addNumbers("Valera", null); //Проверяет рекцию на null.
         assertEquals(new TreeSet<>(), ph.findNumber("Valera"));
     }
@@ -86,13 +86,13 @@ public class test {
         ph.addNumber("Richard", "8329093844309");
         assertEquals(setOf("8329093844309"), ph.findNumber("Richard"));
         Set<String> a = ph.findNumber("Richard");
-        boolean catchEx = false;                         //
-        try {                                           //
+        boolean catchEx = false;                       //
+        try {                                          //
             a.add("dfg");                              //
-        } catch (UnsupportedOperationException e) {   // Проверяет реакцию на попытку
-            catchEx = true;                          //  изменить мнжество номеров;
-        }                                           //
-        assertTrue(catchEx);                       //
+        } catch (UnsupportedOperationException e) {    // Проверяет реакцию на попытку
+            catchEx = true;                            // изменить мнжество номеров;
+        }                                              //
+        assertTrue(catchEx);                           //
         assertNull(ph.findNumber("Phillip")); //Проверяет рекцию на невнесённое имя;
         assertNull(ph.findNumber(null)); //Проверяет рекцию на null.
     }
